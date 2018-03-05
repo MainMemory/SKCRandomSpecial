@@ -272,6 +272,7 @@ extern "C"
 		transform(s3mode.begin(), s3mode.end(), s3mode.begin(), ::tolower);
 		skmode = settings->getString("", "SKMode", "sk");
 		transform(skmode.begin(), skmode.end(), skmode.begin(), ::tolower);
+		usestagepal = settings->getBool("", "UseStagePal", true);
 		delete settings;
 		WriteJump(LoadSpecialStageMap, LoadSpecialStageMap_r);
 	}
