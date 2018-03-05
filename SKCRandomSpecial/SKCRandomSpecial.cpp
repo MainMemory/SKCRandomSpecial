@@ -10,6 +10,7 @@
 
 using std::unordered_map;
 using std::string;
+using std::wstring;
 using std::transform;
 
 DataArray(short, word_69EC1F, 0x69EC1F, 1);
@@ -264,10 +265,10 @@ extern "C"
 		}
 	}
 
-	__declspec(dllexport) void Init(const char *path, const HelperFunctions &helperFunctions)
+	__declspec(dllexport) void Init(const wchar_t *path, const HelperFunctions &helperFunctions)
 	{
 		srand(_time32(nullptr));
-		const IniFile *settings = new IniFile(std::string(path) + "\\config.ini");
+		const IniFile *settings = new IniFile(wstring(path) + L"\\config.ini");
 		s3mode = settings->getString("", "S3Mode", "s3");
 		transform(s3mode.begin(), s3mode.end(), s3mode.begin(), ::tolower);
 		skmode = settings->getString("", "SKMode", "sk");
