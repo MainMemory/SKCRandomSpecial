@@ -105,7 +105,7 @@ void LoadBSStageMap()
 	}
 	int ssnum;
 	if (BS_special_stage_flag || usestagepal)
-		ssnum = ((char *)Blue_sphere_stage_number)[2];
+		ssnum = ((char *)&Blue_sphere_stage_number)[2];
 	else
 	{
 		ssnum = Current_special_stage;
