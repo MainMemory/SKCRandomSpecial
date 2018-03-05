@@ -2,7 +2,7 @@
 //
 
 #include "stdafx.h"
-#include <cstdlib>
+#include <random>
 #include <ctime>
 #include <algorithm>
 #include "SKCModLoader.h"
@@ -12,6 +12,9 @@ using std::unordered_map;
 using std::string;
 using std::wstring;
 using std::transform;
+
+std::random_device rd;
+std::default_random_engine gen(rd());
 
 DataArray(short, word_69EC1F, 0x69EC1F, 1);
 DataPointer(void*, dword_8FFE446, 0x8FFE446);
@@ -123,7 +126,7 @@ void LoadS3StageMap()
 		return;
 	}
 	SetCurSS();
-	int ssnum = rand() & 7;
+	int ssnum = gen() & 7;
 	memset(Target_water_palette, 0, 0x600);
 	memcpy(Plane_buffer, SStageLayoutPtrs[ssnum], 0x400);
 	unsigned short *src = (unsigned short*)((char*)SStageLayoutPtrs[ssnum] + 0x400);
@@ -149,7 +152,7 @@ void LoadSKStageMap()
 	}
 	Kosinski_Decomp(SSCompressedLayoutPointers[0], RAM_start);
 	SetCurSS();
-	int ssnum = rand() & 7;
+	int ssnum = gen() & 7;
 	memset(Target_water_palette, 0, 0x600);
 	memcpy(Plane_buffer, SSLayoutOffs_RAM[ssnum], 0x400);
 	unsigned short *src = (unsigned short*)((char*)SSLayoutOffs_RAM[ssnum] + 0x400);
@@ -170,7 +173,7 @@ void LoadSKStageMap()
 
 void LoadS3SKStageMap()
 {
-	if (rand() & 1)
+	if (gen() & 1)
 		LoadSKStageMap();
 	else
 		LoadS3StageMap();
@@ -178,7 +181,7 @@ void LoadS3SKStageMap()
 
 void LoadS3BSStageMap()
 {
-	if (rand() & 1)
+	if (gen() & 1)
 		LoadBSStageMap();
 	else
 		LoadS3StageMap();
@@ -186,7 +189,7 @@ void LoadS3BSStageMap()
 
 void LoadSKBSStageMap()
 {
-	if (rand() & 1)
+	if (gen() & 1)
 		LoadBSStageMap();
 	else
 		LoadSKStageMap();
@@ -194,7 +197,7 @@ void LoadSKBSStageMap()
 
 void LoadAllStageMap()
 {
-	switch (rand() % 3)
+	switch (gen() % 3)
 	{
 	case 0:
 		LoadS3StageMap();
@@ -267,7 +270,6 @@ extern "C"
 
 	__declspec(dllexport) void Init(const wchar_t *path, const HelperFunctions &helperFunctions)
 	{
-		srand(_time32(nullptr));
 		const IniFile *settings = new IniFile(wstring(path) + L"\\config.ini");
 		s3mode = settings->getString("", "S3Mode", "s3");
 		transform(s3mode.begin(), s3mode.end(), s3mode.begin(), ::tolower);
